@@ -1,0 +1,42 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "goodqa",
+  "version": "0.1.0",
+  "description": "Work with GoodQA tickets, projects and follow-ups from your agent: find the right organization, file and update issues, and hand risky actions to a person. Configured for OAuth at goodqa.app; no API key to paste.",
+  "author": {
+    "name": "GoodQA",
+    "url": "https://goodqa.app"
+  },
+  "homepage": "https://goodqa.app/developers",
+  "license": "MIT",
+  "keywords": [
+    "goodqa",
+    "mcp",
+    "issues",
+    "qa",
+    "projects",
+    "bug-tracking"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "GoodQA",
+        "shortDescription": "Track QA issues in GoodQA",
+        "longDescription": "For software teams using GoodQA: find organizations and projects, read and summarize issues, and create issues or comments when your connected account has the required access. Each connection is limited to approved organizations and scopes; sensitive actions may require approval in GoodQA.",
+        "developerName": "GoodQA",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Find projects and issues",
+          "Create and update issues",
+          "Comment on issues"
+        ],
+        "websiteURL": "https://goodqa.app",
+        "supportURL": "https://goodqa.app/support",
+        "privacyPolicyURL": "https://goodqa.app/privacy",
+        "termsOfServiceURL": "https://goodqa.app/terms",
+        "composerIcon": "./assets/logo.svg",
+        "logo": "./assets/logo.svg"
+      }
+    }
+  }
+}

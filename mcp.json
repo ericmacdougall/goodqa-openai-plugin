@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "goodqa": {
+      "type": "streamable-http",
+      "url": "https://goodqa.app/v1/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "client": {
+              "mode": "cimd"
+            },
+            "baseScopes": [
+              "goodqa:read",
+              "goodqa:write",
+              "goodqa:issues"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
