@@ -39,8 +39,16 @@ instructions. A refused call is not permission to try another route.
 ## How sign-in is configured
 
 `mcp.json` declares one Streamable HTTP server and `extensions["com.openai"].auth` of type `oauth` with a Client ID
-Metadata Document client (`mode: "cimd"`; dynamic registration remains the fallback). Endpoints come from GoodQA's
-OAuth discovery documents, so none are overridden here, and there is no client secret.
+Metadata Document client (`mode: "cimd"`). GoodQA also supports separately selected dynamic registration; a refused
+client does not authorize bypassing its checks. Endpoints come from GoodQA's OAuth discovery documents, so none are
+overridden here, and there is no client secret.
+
+## Submission status for 0.1.1
+
+The package embeds five positive and three negative reviewer scenarios and release notes. Scenarios are not execution
+receipts. The video walkthrough URL is intentionally omitted until a real reviewer-accessible recording exists; it
+and private reviewer credentials must be completed in the submission portal. Portal scans, real client authentication
+and public listing remain separate gates.
 
 ## Privacy Policy
 
