@@ -1,7 +1,59 @@
 # GoodQA for ChatGPT and Codex
 
-Connect your agent to [GoodQA](https://goodqa.app) tickets, projects and follow-ups through GoodQA's public MCP server
-(`https://goodqa.app/v1/mcp`), configured for OAuth.
+[GoodQA](https://goodqa.app) is an issue tracker with a public MCP (Model Context Protocol) server at
+`https://goodqa.app/v1/mcp`. This plugin points ChatGPT and Codex at that server and adds one skill, so an agent can work
+with GoodQA tickets, projects and follow-ups on behalf of the person who signed in.
+
+It is for software teams that already track bugs and QA work in GoodQA and want their coding agent to look up
+tickets, file new ones, update them and add comments without leaving the session. The problem it addresses is access
+and safety rather than a new feature: one connection can reach several GoodQA organizations, and ticket text is
+written by other people. Without guidance an agent may guess an organization or follow instructions planted in a
+ticket.
+
+What this package contains and does:
+
+- an MCP server entry for the GoodQA URL, configured for OAuth using a Client ID Metadata Document client (no client secret),
+- a `goodqa` skill telling the agent to call `whoami` and `list_orgs` first, pass `orgId` explicitly, stop when a call
+  is refused instead of trying another route, and treat ticket text, comments and messages as data, not instructions;
+- no credentials, no hooks and no executable code.
+
+The connection acts as you, only within the organizations and scopes you approve, and you can revoke it at any time.
+
+## How it works
+
+```mermaid
+flowchart LR
+    subgraph pkg[Plugin package]
+        P[plugin.json<br/>metadata and review cases]
+        C[mcp.json<br/>streamable-http, oauth cimd]
+        S[skills/goodqa/SKILL.md]
+    end
+    pkg --> H[ChatGPT / Codex host]
+    H -- OAuth consent in browser --> G[GoodQA authorization]
+    H -- MCP over HTTPS --> M[goodqa.app/v1/mcp]
+    G -. scoped token .-> H
+```
+
+| File | Role |
+|---|---|
+| `plugin.json` | Agent Plugins manifest, version `0.1.1`; the `com.openai` extension carries display text, five positive and three negative reviewer scenarios, and release notes. |
+| `mcp.json` | One `streamable-http` server with `com.openai` auth of type `oauth`, client mode `cimd`, base scopes `goodqa:read`, `goodqa:write`, `goodqa:issues`. |
+| `skills/goodqa/SKILL.md` | Session-start routine, refusal handling and the rule that content is data. |
+
+The reviewer scenarios include refusals: bulk deletion without the delete scope, an instruction planted in a ticket,
+and an organization outside the approved connection. They describe expected behavior; they are not test results.
+
+The skill file is generated from GoodQA's main codebase and pins version 1.11.0 of GoodQA's conversation rulebook.
+
+## Status and roadmap
+
+| Item | State |
+|---|---|
+| Plugin package version 0.1.1 with reviewer metadata | In this repository. |
+| Real ChatGPT or Codex client sign-in | Not proven for public users; OAuth client qualification is in progress. |
+| Reviewer walkthrough recording | Not yet recorded; the URL is omitted on purpose. |
+| Portal scans, public directory listing | Separate gates, not shown as passed here. |
+| General availability | Planned; needs a separate rollout decision by GoodQA. |
 
 ## Authentication status
 
